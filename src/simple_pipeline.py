@@ -947,11 +947,13 @@ if __name__ == "__main__":
     dataset_name_file = "ts_total"
     name_ew_shape = "combined_ts_2018_2022_trend"
     name_ud_shape = "combined_ts_2018_2022_trend"""
-    folder_path = "../data/unlabeled_data/EW_UD_wfeats"
-    dataset_name_file = "EW_UD_wfeats"
-    name_ew_shape = "EGMS_EW_18_22_32632_wfeats"
-    name_ud_shape = "EGMS_UD_18_22_32632_wfeats"
-    sr = "epsg:32632"
+
+    folder_path = "../data/unlabeled_data/offida_data"
+    dataset_name_file = "offida_data"
+    name_ew_shape = "EGMS_decomposed_10m_average_EW"
+    name_ud_shape = "EGMS_decomposed_10m_average_UD"
+    sr = "epsg:4326"
+
     cluster_different_use = "EW"
     # use_extra_features = True
     # selection_extra_features = True

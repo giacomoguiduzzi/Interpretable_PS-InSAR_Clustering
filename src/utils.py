@@ -80,17 +80,36 @@ def realign_labels(
 
 def get_idle_cpu_cores():
     total_cores = multiprocessing.cpu_count()
-    # first run the cpu_percent() method to update the internal CPU times
-    """for p in psutil.process_iter(['cpu_percent']):
-        p.cpu_percent()
+    if sys.platform == "win32":
+        print("Measuring the number of idle CPU cores...")
+        # first run the cpu_percent() method to update the internal CPU times
+        processes_util_before = set()
+        processes_util_after = dict()
+        for p in psutil.process_iter(["cpu_percent"]):
+            p.cpu_percent()
+            processes_util_before.add(p.pid)
 
-    # wait 1 second to let the processes run
-    time.sleep(5)
-    # gather the processes that have been using the CPU since the last call to cpu_percent() (around 1 second ago)
-    active_processes = len([p for p in psutil.process_iter(['cpu_percent']) if p.cpu_percent() > 0])"""
-    active_processes = len(
-        [p for p in psutil.process_iter() if p.status() == "running"]
-    )
+        # wait 5 seconds to let the processes run
+        time.sleep(5)
+        # update the CPU usage percentage
+        for p in psutil.process_iter(["cpu_percent"]):
+            processes_util_after[p.pid] = p.cpu_percent()
+
+        # merge the processes lists so to ignore the processes which were not alive before.
+        # no need to compute the difference as psutil does it with the second call to cpu_percent()
+        processes_util = {
+            pid: processes_util_after[pid]
+            for pid in processes_util_after
+            if pid in processes_util_before
+        }
+        # being Windows,
+        # we consider cores
+        # to be idle if they are used at less than 10% of their capacity
+        active_processes = len([p for p in processes_util.values() if p > 10])
+    else:
+        active_processes = len(
+            [p for p in psutil.process_iter() if p.status() == "running"]
+        )
     idle_cores = max(1, total_cores - active_processes)
     return idle_cores
 
