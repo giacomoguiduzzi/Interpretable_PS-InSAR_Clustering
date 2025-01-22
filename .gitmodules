@@ -1,6 +1,6 @@
 [submodule "time2feat"]
 	path = time2feat
-	url = https://github.com/softlab-unimore/time2feat.git
+	url = https://github.com/giacomoguiduzzi/time2feat.git
 [submodule "FeatTS"]
 	path = FeatTS
 	url = https://github.com/protti/FeatTS.git
