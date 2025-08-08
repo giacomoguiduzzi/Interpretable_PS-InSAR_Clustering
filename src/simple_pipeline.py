@@ -113,7 +113,7 @@ parser.add_argument(
     type=str,
     default=None,
     help="Path to the shape data file for the online optimization algorithm. For example, this file could contain "
-         "information derived from the EW and UD components to determine the best number of clusters.",
+    "information derived from the EW and UD components to determine the best number of clusters.",
 )
 
 parser.add_argument(
@@ -167,7 +167,7 @@ parser.add_argument(
     type=int,
     default=10,
     help="Patience for the online optimization algorithm. This value determines how many clustering solutions "
-         "with increasing number of clusters are going to be tested before stopping the optimization.",
+    "with increasing number of clusters are going to be tested before stopping the optimization.",
 )
 
 parser.add_argument(
@@ -175,8 +175,8 @@ parser.add_argument(
     type=float,
     default=0.1,
     help="Threshold value for the online optimization algorithm. "
-         "This value determines how much the clustering inertia should decrease in comparison to the average inertia "
-         "of the past iterations to continue the optimization, resetting the patience counter.",
+    "This value determines how much the clustering inertia should decrease in comparison to the average inertia "
+    "of the past iterations to continue the optimization, resetting the patience counter.",
 )
 
 parser.add_argument(
@@ -359,13 +359,13 @@ def load_and_prepare_data():
 
     # Calculate lat e lon
     if None in ps_ew.geometry.values and not (
-            "LAT" in ps_ew.columns and "LON" in ps_ew.columns
+        "LAT" in ps_ew.columns and "LON" in ps_ew.columns
     ):
         raise ValueError(
             "The shapefile for EW does not contain geometry information (no 'geometry' column) and the LAT and LON columns are missing."
         )
     if None in ps_ud.geometry.values and not (
-            "LAT" in ps_ud.columns and "LON" in ps_ud.columns
+        "LAT" in ps_ud.columns and "LON" in ps_ud.columns
     ):
         raise ValueError(
             "The shapefile for UD does not contain geometry information (no 'geometry' column) and the LAT and LON columns are missing."
@@ -422,10 +422,10 @@ def load_and_prepare_data():
 
     ps_ew_2d = ps_ew_2d[
         ["LAT", "LON"] + [col for col in ps_ew_2d.columns if col not in ["LAT", "LON"]]
-        ]
+    ]
     ps_ud_2d = ps_ud_2d[
         ["LAT", "LON"] + [col for col in ps_ud_2d.columns if col not in ["LAT", "LON"]]
-        ]
+    ]
 
     # Extract EW and UD time series
     ts_data = extract_ts(ps_ew_2d).copy().T
@@ -588,7 +588,7 @@ def main():
                 f,
             )
     elif not args.use_extra_features and (
-            ew_extra_feats is not None or ud_extra_feats is not None
+        ew_extra_feats is not None or ud_extra_feats is not None
     ):
         print(
             "Extra features found in the dataset, but they are not used for this run. Removing them."
@@ -675,52 +675,52 @@ def main():
             explain=True,
             num_runs=args.num_runs,
             dataset_name=args.folder_save
-                         + "/"
-                         + args.dataset_name
-                         + "__saved__models.pkl",
+            + "/"
+            + args.dataset_name
+            + "__saved__models.pkl",
             overwrite_results=True,
             pfa_value=args.pfa_value,
             selection_external=args.selection_extra_features,
             saved_features_extracted=args.folder_save
-                                     + "/"
-                                     + args.dataset_name
-                                     + "__saved__features.pkl",
+            + "/"
+            + args.dataset_name
+            + "__saved__features.pkl",
         )
 
         # Save results
         with open(
-                args.folder_save
-                + os.sep
-                + args.dataset_name
-                + "_"
-                + "_".join(
-                    [
-                        f"uxf{args.use_extra_features}",
-                        f"sef{args.selection_extra_features}",
-                        f"pfa{args.pfa_value}",
-                    ]
-                )
-                + "__saved__clusters.pkl",
-                "wb",
+            args.folder_save
+            + os.sep
+            + args.dataset_name
+            + "_"
+            + "_".join(
+                [
+                    f"uxf{args.use_extra_features}",
+                    f"sef{args.selection_extra_features}",
+                    f"pfa{args.pfa_value}",
+                ]
+            )
+            + "__saved__clusters.pkl",
+            "wb",
         ) as results_file:
             pickle.dump(
                 results_labels,
                 results_file,
             )
         with open(
-                args.folder_save
-                + os.sep
-                + args.dataset_name
-                + "_"
-                + "_".join(
-                    [
-                        f"uxf{args.use_extra_features}",
-                        f"sef{args.selection_extra_features}",
-                        f"pfa{args.pfa_value}",
-                    ]
-                )
-                + "__saved__explanations.pkl",
-                "wb",
+            args.folder_save
+            + os.sep
+            + args.dataset_name
+            + "_"
+            + "_".join(
+                [
+                    f"uxf{args.use_extra_features}",
+                    f"sef{args.selection_extra_features}",
+                    f"pfa{args.pfa_value}",
+                ]
+            )
+            + "__saved__explanations.pkl",
+            "wb",
         ) as explanations_file:
             pickle.dump(
                 explanations,
@@ -804,32 +804,32 @@ def main():
                 ps_ud[method_] = run_results[1]
 
     ps_ew_savefile = (
-            args.folder_save
-            + os.sep
-            + args.dataset_name
-            + "_EW_wlabels_"
-            + "_".join(
-        [
-            f"uxf{args.use_extra_features}",
-            f"sef{args.selection_extra_features}",
-            f"pfa{args.pfa_value}",
-        ]
-    )
-            + ".shp"
+        args.folder_save
+        + os.sep
+        + args.dataset_name
+        + "_EW_wlabels_"
+        + "_".join(
+            [
+                f"uxf{args.use_extra_features}",
+                f"sef{args.selection_extra_features}",
+                f"pfa{args.pfa_value}",
+            ]
+        )
+        + ".shp"
     )
     ps_ud_savefile = (
-            args.folder_save
-            + os.sep
-            + args.dataset_name
-            + "_UD_wlabels_"
-            + "_".join(
-        [
-            f"uxf{args.use_extra_features}",
-            f"sef{args.selection_extra_features}",
-            f"pfa{args.pfa_value}",
-        ]
-    )
-            + ".shp"
+        args.folder_save
+        + os.sep
+        + args.dataset_name
+        + "_UD_wlabels_"
+        + "_".join(
+            [
+                f"uxf{args.use_extra_features}",
+                f"sef{args.selection_extra_features}",
+                f"pfa{args.pfa_value}",
+            ]
+        )
+        + ".shp"
     )
     print(f"Saving clustering labels in {ps_ew_savefile} and {ps_ud_savefile}")
     ps_ew.to_file(ps_ew_savefile)
@@ -900,15 +900,15 @@ def main():
 
     # Specify the CSV file path
     csv_file_path = (
-            args.folder_save
-            + "/"
-            + "results__"
-            + dataset_name_file
-            + "__"
-            + str(n_clusters)
-            + "___"
-            + args.mismatch_opt
-            + ".csv"
+        args.folder_save
+        + "/"
+        + "results__"
+        + dataset_name_file
+        + "__"
+        + str(n_clusters)
+        + "___"
+        + args.mismatch_opt
+        + ".csv"
     )
 
     # Step 1: Load existing data if the file exists

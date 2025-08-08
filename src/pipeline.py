@@ -293,16 +293,16 @@ def load_and_prepare_data(args):
         ps_ew_ud_2d = ps_ew_ud_2d[
             ["LAT", "LON"]
             + [col for col in ps_ew_ud_2d.columns if col not in ["LAT", "LON"]]
-            ]
+        ]
     else:
         ps_ew_2d = ps_ew_2d[
             ["LAT", "LON"]
             + [col for col in ps_ew_2d.columns if col not in ["LAT", "LON"]]
-            ]
+        ]
         ps_ud_2d = ps_ud_2d[
             ["LAT", "LON"]
             + [col for col in ps_ud_2d.columns if col not in ["LAT", "LON"]]
-            ]
+        ]
 
     # init to avoid undefined variable error
     x_ew_ud, x_ew, x_ud = None, None, None
@@ -393,7 +393,7 @@ def load_and_prepare_data(args):
         opt_data = None
 
     if (not args.overwrite and os.path.exists(args.output_filename)) or (
-            args.overwrite and not os.path.exists(args.output_filename)
+        args.overwrite and not os.path.exists(args.output_filename)
     ):
         if not args.use_ground_truth:
             ground_truth_labels = None
@@ -467,9 +467,9 @@ def scale_extra_features(ps_datasets: dict, extra_feats: dict):
         # apply minmax on extra features: LAT and LON together, every other feature by itself
 
         if (
-                dataset_extra_feats is not None
-                and "LAT" in dataset_extra_feats.columns
-                and "LON" in dataset_extra_feats.columns
+            dataset_extra_feats is not None
+            and "LAT" in dataset_extra_feats.columns
+            and "LON" in dataset_extra_feats.columns
         ):
             dataset_extra_feats.loc[:, ["LAT", "LON"]] = MinMaxScaler().fit_transform(
                 dataset_extra_feats.loc[:, ["LAT", "LON"]].copy()
@@ -499,7 +499,7 @@ def scale_dataset(*args):
 
 
 def online_optimize_clusters(
-        dataset, thr=0.5, min_k=10, max_patience=10, plot_inertia: bool = False
+    dataset, thr=0.5, min_k=10, max_patience=10, plot_inertia: bool = False
 ) -> int:
     def average_difference(list_: list):
         """
@@ -652,12 +652,12 @@ def online_optimize_clusters(
 
 
 def prepare_data_for_clustering(
-        x_datasets: Sequence[np.ndarray],
-        y_labels: Optional[Sequence[np.ndarray]],
-        dataset_names: Sequence[str],
-        external_features: Optional[Sequence[pd.DataFrame]] = None,
-        n_clusters: Optional[int] = None,
-        random_labels_perc: float = 0.2,
+    x_datasets: Sequence[np.ndarray],
+    y_labels: Optional[Sequence[np.ndarray]],
+    dataset_names: Sequence[str],
+    external_features: Optional[Sequence[pd.DataFrame]] = None,
+    n_clusters: Optional[int] = None,
+    random_labels_perc: float = 0.2,
 ) -> dict:
     if y_labels is None or all(label is None for label in y_labels):
         y_labels = [None] * len(x_datasets)
@@ -668,7 +668,7 @@ def prepare_data_for_clustering(
         num_clusters = n_clusters
 
     if external_features is None or all(
-            ext_feat is None for ext_feat in external_features
+        ext_feat is None for ext_feat in external_features
     ):
         external_features = [None] * len(x_datasets)
 
@@ -691,15 +691,15 @@ def prepare_data_for_clustering(
 
 
 def run_models(
-        methods: Sequence[str],
-        data: dict,
-        num_runs: int,
-        explain: bool,
-        jobs: int,
-        n_lengths: Optional[list] = None,
-        pfa_value: float = 0.9,
-        selection_external: bool = False,
-        save_features_extracted: str = "",
+    methods: Sequence[str],
+    data: dict,
+    num_runs: int,
+    explain: bool,
+    jobs: int,
+    n_lengths: Optional[list] = None,
+    pfa_value: float = 0.9,
+    selection_external: bool = False,
+    save_features_extracted: str = "",
 ) -> dict:
     methods: list
 
@@ -765,10 +765,10 @@ def run_models(
                     }
         else:
             for dataset_name, X, y, ext_feats in zip(
-                    data["dataset_names"],
-                    data["x_datasets"],
-                    data["y_labels"],
-                    data["external_features"],
+                data["dataset_names"],
+                data["x_datasets"],
+                data["y_labels"],
+                data["external_features"],
             ):
                 if method.lower() == "kshape":
                     print(f"KShape on {dataset_name}")
@@ -841,12 +841,12 @@ def run_models(
 
 
 def compute_metrics(
-        methods_results: dict,
-        supervised_metrics: bool,
-        euclidean_feats: Optional[pd.DataFrame],
-        kneighbors_percentage: float = 0.9,
-        return_mlrd_per_cluster: bool = False,
-        num_runs: int = 10,
+    methods_results: dict,
+    supervised_metrics: bool,
+    euclidean_feats: Optional[pd.DataFrame],
+    kneighbors_percentage: float = 0.9,
+    return_mlrd_per_cluster: bool = False,
+    num_runs: int = 10,
 ) -> Union[tuple[dict, dict], dict]:
     """
     Compute clustering metrics for the given methods results
@@ -959,10 +959,10 @@ def compute_metrics(
     n_clusters = n_clusters["ground_truth_labels"]
 
     methods = [
-                  result_label
-                  for result_label in methods_results.keys()
-                  if result_label != "results_labels"
-              ] + list(methods_results["results_labels"][n_clusters[0]].keys())
+        result_label
+        for result_label in methods_results.keys()
+        if result_label != "results_labels"
+    ] + list(methods_results["results_labels"][n_clusters[0]].keys())
 
     # create a list with unique dataset names per method
     dataset_names_by_method = {
@@ -988,7 +988,7 @@ def compute_metrics(
             }
             for method in methods
             if method
-               not in ["ground_truth_labels", "baseline_labels_ew", "baseline_labels_ud"]
+            not in ["ground_truth_labels", "baseline_labels_ew", "baseline_labels_ud"]
         }
         for cluster_value in n_clusters
     }
@@ -1061,7 +1061,7 @@ def compute_metrics(
                                         # c[K] is np.array([N, p]) (N : number of samples in cluster K, p: sample dimension)
                                         k_list = [
                                             euclidean_feats.loc[
-                                            pred_labels == cluster, :
+                                                pred_labels == cluster, :
                                             ].values
                                             for cluster in sorted(
                                                 np.unique(pred_labels)
@@ -1086,8 +1086,8 @@ def compute_metrics(
 
         else:
             if (
-                    labels_name == "ground_truth_labels"
-                    and methods_results[labels_name] is not None
+                labels_name == "ground_truth_labels"
+                and methods_results[labels_name] is not None
             ):
                 true_labels = methods_results[labels_name]
                 for dataset_name in ground_truth_metrics:
@@ -1120,7 +1120,7 @@ def compute_metrics(
                                 # c[K] is np.array([N, p]) (N : number of samples in cluster K, p: sample dimension)
                                 k_list = [
                                     euclidean_feats.loc[
-                                    true_labels == cluster, :
+                                        true_labels == cluster, :
                                     ].values
                                     for cluster in sorted(np.unique(true_labels))
                                 ]
@@ -1206,7 +1206,7 @@ def compute_metrics(
                             baseline_metrics_ud[dataset_name][metric.__name__] = result
 
     if "baseline_labels_ew" in list(
-            methods_results.keys()
+        methods_results.keys()
     ) and "baseline_labels_ud" in list(methods_results.keys()):
         methods_metrics = {
             "ground_truth_labels": ground_truth_metrics,
@@ -1227,21 +1227,21 @@ def compute_metrics(
 
 
 def compute_clusters(
-        methods: Sequence[str],
-        x_datasets: Sequence[np.ndarray],
-        y_labels: Optional[Sequence[np.ndarray]],
-        dataset_names: Sequence[str],
-        n_lengths: Optional[Sequence[int]] = None,
-        external_features: Optional[Sequence[pd.DataFrame]] = None,
-        random_labels_perc: float = 0.2,
-        num_runs: int = 1,
-        explain: bool = False,
-        n_clusters: Optional[int] = None,
-        dataset_name: str = "",
-        overwrite_results: bool = False,
-        pfa_value: float = 0.9,
-        selection_external=False,
-        saved_features_extracted: str = "",
+    methods: Sequence[str],
+    x_datasets: Sequence[np.ndarray],
+    y_labels: Optional[Sequence[np.ndarray]],
+    dataset_names: Sequence[str],
+    n_lengths: Optional[Sequence[int]] = None,
+    external_features: Optional[Sequence[pd.DataFrame]] = None,
+    random_labels_perc: float = 0.2,
+    num_runs: int = 1,
+    explain: bool = False,
+    n_clusters: Optional[int] = None,
+    dataset_name: str = "",
+    overwrite_results: bool = False,
+    pfa_value: float = 0.9,
+    selection_external=False,
+    saved_features_extracted: str = "",
 ) -> Union[dict, Sequence]:
     data = prepare_data_for_clustering(
         x_datasets,
@@ -1294,17 +1294,17 @@ def compute_clusters(
 
 
 def run_experiments(
-        x_ew: Optional[np.ndarray] = None,
-        ps_ew_2d: Optional[pd.DataFrame] = None,
-        methods: Optional[list[str]] = None,
-        x_ud: Optional[np.ndarray] = None,
-        ps_ud_2d: Optional[pd.DataFrame] = None,
-        labels: Optional[list[int]] = None,
-        n_clusters: Optional[int] = None,
-        supervised_metrics: bool = True,
-        ext_feats: Union[list[str], pd.DataFrame] = None,
-        num_runs: int = 10,
-        merged_signals: bool = False,
+    x_ew: Optional[np.ndarray] = None,
+    ps_ew_2d: Optional[pd.DataFrame] = None,
+    methods: Optional[list[str]] = None,
+    x_ud: Optional[np.ndarray] = None,
+    ps_ud_2d: Optional[pd.DataFrame] = None,
+    labels: Optional[list[int]] = None,
+    n_clusters: Optional[int] = None,
+    supervised_metrics: bool = True,
+    ext_feats: Union[list[str], pd.DataFrame] = None,
+    num_runs: int = 10,
+    merged_signals: bool = False,
 ) -> tuple[dict, dict]:
     if x_ew is None and x_ud is None:
         raise ValueError(

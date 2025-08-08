@@ -4,3 +4,7 @@
 [submodule "FeatTS"]
 	path = FeatTS
 	url = https://github.com/giacomoguiduzzi/FeatTS.git
+
+[submodule "jqm_cvi"]
+	path = jqm_cvi
+	url = https://github.com/jqmviegas/jqm_cvi.git

@@ -33,11 +33,11 @@ def select_random_percent(labels, perc):
 
 
 def gaussian(x, mu, sigma):
-    return np.exp(-((x - mu) ** 2) / (2 * sigma ** 2))
+    return np.exp(-((x - mu) ** 2) / (2 * sigma**2))
 
 
 def realign_labels(
-        ground_truth_labels, baseline_labels_ew, baseline_labels_ud, results_labels
+    ground_truth_labels, baseline_labels_ew, baseline_labels_ud, results_labels
 ):
     if ground_truth_labels is not None:
         if np.max(ground_truth_labels) != len(np.unique(ground_truth_labels)):
@@ -69,7 +69,7 @@ def realign_labels(
                     for run_num, (_, pred_labels) in enumerate(results_list):
                         if 0 in pred_labels:
                             results_labels[method][dataset][run_num][1] = (
-                                    np.array(pred_labels) + 1
+                                np.array(pred_labels) + 1
                             )
 
     return (
@@ -117,12 +117,12 @@ def get_idle_cpu_cores():
 
 
 def show_and_save_data(
-        metrics_results: dict,
-        explanations_per_n_clusters: dict,
-        user_n_clusters: int,
-        baseline_n_clusters: int,
-        ground_truth_n_clusters: Optional[int] = None,
-        print_explanation: bool = False,
+    metrics_results: dict,
+    explanations_per_n_clusters: dict,
+    user_n_clusters: int,
+    baseline_n_clusters: int,
+    ground_truth_n_clusters: Optional[int] = None,
+    print_explanation: bool = False,
 ):
     # print metric results as text table
     # flatten the dictionary
