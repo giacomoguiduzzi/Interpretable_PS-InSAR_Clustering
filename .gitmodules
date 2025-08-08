@@ -3,4 +3,4 @@
 	url = https://github.com/giacomoguiduzzi/time2feat.git
 [submodule "FeatTS"]
 	path = FeatTS
-	url = https://github.com/protti/FeatTS.git
+	url = https://github.com/giacomoguiduzzi/FeatTS.git
